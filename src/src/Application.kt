@@ -6,6 +6,7 @@ import io.ktor.jackson.jackson
 import io.ktor.response.*
 import io.ktor.request.*
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.routing.routing
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -21,6 +22,11 @@ fun Application.module(testing: Boolean = false) {
     routing {
         get("/snippets") {
             call.respond(SnippetsDataFactory.SNIPPETS_DATA)
+        }
+        post {
+            val post = call.receifve<PostSnippet>()
+            snippets += Snippet(post.snippet.text)
+            call.respond(mapOf("OK" to true))
         }
     }
 }
