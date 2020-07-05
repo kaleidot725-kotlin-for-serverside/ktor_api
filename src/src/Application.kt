@@ -23,9 +23,14 @@ fun Application.module(testing: Boolean = false) {
         get("/snippets") {
             call.respond(SnippetsDataFactory.SNIPPETS_DATA)
         }
-        post {
-            SnippetsDataFactory.SNIPPETS_DATA += call.receive<Snippets>()
-            call.respond(mapOf("OK" to true))
+        post("/snippets") {
+            try {
+                SnippetsDataFactory.SNIPPETS_DATA += call.receive<Snippets>()
+                call.respond(mapOf("OK" to true))
+            } catch (e: Exception) {
+                print(e.toString())
+                call.respond(mapOf("NG" to false))
+            }
         }
     }
 }
