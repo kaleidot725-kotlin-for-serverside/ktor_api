@@ -24,8 +24,7 @@ fun Application.module(testing: Boolean = false) {
             call.respond(SnippetsDataFactory.SNIPPETS_DATA)
         }
         post {
-            val post = call.receifve<PostSnippet>()
-            snippets += Snippet(post.snippet.text)
+            SnippetsDataFactory.SNIPPETS_DATA += call.receive<Snippets>()
             call.respond(mapOf("OK" to true))
         }
     }
