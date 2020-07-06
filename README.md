@@ -63,7 +63,7 @@ dependencies {
 
 ## GETメソッドを登録する
 
-次のように get の引数に パスを渡すことで API を定義する。次の例だと /snippets にアクセスしたときの API を作成することになります。get の block にて応答データを生成できるようになっています。（call.respond の引数には Map や List を渡せる。Map を渡すと Key と Value のペアを JSON に変換したもの、List を渡すと Item を JSON に変換したものが返される。）
+次のように get にパスを渡してGETメソッドを定義する。get の block では応答データの生成処理を記述します。call.respond の引数には Map や List を渡せるようになっていて、Mapを渡すと Key と Value のペアを JSON に変換したもの、List を渡すと Item を JSON に変換したものが応答データとして返される。
 
 ```kotlin
 data class Snippets(val title: String, val detail: String)
@@ -84,7 +84,7 @@ routing {
 }
 ```
 
-定義した  API  の GET メソッドを呼び出すと次のような結果になります。
+作成したGET メソッドを呼び出すと次のような結果になります。
 
 ```http
 GET http://0.0.0.0:8080/snippets
@@ -106,7 +106,7 @@ Connection: keep-alive
 
 ## POSTメソッドを登録する
 
-次のように post の引数に パスを渡すことで API を定義する。次の例だと /snippets にアクセスしたときの API を作成することになります。post の block にて引き渡されたデータに応じて処理を実行できるようになっている。
+次のように post にパスを渡してPOSTメソッドを定義する。post の block には受信データに応じた処理、応答データの生成処理などを記述する。call.receive にて HTTP の body に格納されたデータを取得できるようになっている。また get 同様に call.respond にて応答データを生成できる。
 
 ```kotlin
 routing {
@@ -117,7 +117,7 @@ routing {
 }
 ```
 
-定義した API の POST メソッドを呼び出すと次のような結果になります。
+作成した POST メソッドを呼び出すと次のような結果になります。
 
 ```http
 POST http://0.0.0.0:8080/snippets
@@ -143,8 +143,13 @@ Connection: keep-alive
 {"OK":true}
 ```
 
+
+
 ## おわりに
 
-- API を作成するには routing をインストールする必要がある。
+設計を考えるようになると難しくなるかもしれないが APIを定義するだけなら簡単にできる。
+
+次はデータベースと接続してデータを永続化するところまでやりたいなと思う。
+
+- API を定義するには routing や get や post などの DSL を用いる。
 - API にて JSON の生成・解析処理を利用するには jackson をインストールする必要がある。
-- API を定義するには get や post などの DSL 定義を用いる。
